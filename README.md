@@ -1,7 +1,8 @@
 <h2>FastAPI сервис для классификации текста</h2>
 <p>
 <li>В файле app.py содержится бэкэнд часть, которая запускает модель на веб-сервере.</li>
-<li>Имплементация модели в файле main_model.py, состояние модели - model_state_dict.pt.</li>
+<li>Имплементация модели в файле main_model.py, состояние модели - model_state_dict.pt.<br>
+Ссылка на репозиторий с реализацией обучения модели: <a href=https://github.com/lteplova/rnn_in_nlp/tree/main>https://github.com/lteplova/rnn_in_nlp/tree/main</a></li>
 <li>Архитектура нейронной сети rnn_class.py.</li>
 <li>Фронтэнд часть находится в файле index.html, окторый запускается с методом .post в FаstApi приложении.</li>
 </p>
