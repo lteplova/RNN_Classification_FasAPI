@@ -15,7 +15,7 @@
 <p>
 Сервис доступен по ссылке: <a href="http://185.22.61.118:8000/">http://185.22.61.118:8000/</a>
 <li>В файле <code>ml_app/app.py</code> содержится бэкэнд часть, которая запускает модель на веб-сервере.</li>
-<li>Имплементация модели в файле <code>ml_app/ml_model/main_model.py</code>, состояние модели - <code>model_state_dict.pt</code>.<br>
+<li>Имплементация модели в файле <code>ml_app/ml_model/main_model.py</code>, состояние модели - <a href = "https://drive.google.com/file/d/1SECK0p2jrfBuhSRl4_o_BmH5eLcsSGY3/view?usp=drive_link">model_state_dict.pt</a>.<br>
 </li>
 <li>Архитектура нейронной сети <code>ml_app/ml_model/rnn_class.py</code>.</li>
 <li>Фронтэнд часть находится в файле <code>ml_app/public/index.html</code>, который запускается методом .post в FаstAPI приложении.</li>
