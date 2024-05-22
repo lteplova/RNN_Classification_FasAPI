@@ -20,9 +20,10 @@ class Prediction:
 def load_model():
     # загрузка модели, словаря и LabelEncoder для таргета
     device = 'cpu'
-    model_clf = RNN_Classiff_max(hidden_dim=256, vocab_size=28633, num_classes=13, num_layers=2).to(device)
+    # https://drive.google.com/file/d/1SECK0p2jrfBuhSRl4_o_BmH5eLcsSGY3/view?usp=drive_link
+    model_clf = RNN_Classiff_max(hidden_dim=512, vocab_size = 28630, num_classes=13, num_layers=2).to(device)
     load_model_state = torch.load('./ml_model/model_state_dict.pt', map_location=device)
-    model_clf.load_state_dict(load_model_state['state_model'])
+    model_clf.load_state_dict(load_model_state)
     le = joblib.load('./ml_model/le.joblib')
 
     with open('./ml_model/word2idx.pkl', 'rb') as f:
