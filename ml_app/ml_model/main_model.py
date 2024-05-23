@@ -11,6 +11,7 @@ import warnings
 warnings.filterwarnings("ignore")
 from dataclasses import dataclass
 from ml_model.rnn_class import RNN_Classiff_max
+import pymorphy3
 
 @dataclass
 class Prediction:
@@ -18,20 +19,21 @@ class Prediction:
     input_text: str
     label: str
 def load_model():
-    # загрузка модели, словаря и LabelEncoder для таргета
-    device = 'cpu'
-    # https://drive.google.com/file/d/1SECK0p2jrfBuhSRl4_o_BmH5eLcsSGY3/view?usp=drive_link
-    model_clf = RNN_Classiff_max(hidden_dim=512, vocab_size = 28630, num_classes=13, num_layers=2).to(device)
-    load_model_state = torch.load('./ml_model/model_state_dict.pt', map_location=device)
-    model_clf.load_state_dict(load_model_state)
-    le = joblib.load('./ml_model/le.joblib')
-
     with open('./ml_model/word2idx.pkl', 'rb') as f:
         word2idx = pickle.load(f)
+    # загрузка модели, словаря и LabelEncoder для таргета
+    device = 'cpu'
+    model_clf = RNN_Classiff_max(hidden_dim=512, vocab_size = len(word2idx), num_classes=13, num_layers=2).to(device)
+    load_model_state = torch.load('./ml_model/model_state_dict.pt', map_location=device) # эта модель работает с точностью 84.5%
+    model_clf.load_state_dict(load_model_state)
+    le = joblib.load('./ml_model/le.joblib')
+    morph = pymorphy3.MorphAnalyzer()
+
 
     # функция для преобразования входного текста в эмбединг и торч тензор, применение модели, получение предсказания
     def model(input_text_: str) -> Prediction:
-        processed_txt = input_text_.lower().translate(str.maketrans('', '', string.punctuation))  # препроцессинг
+        input = " ".join([morph.parse(w)[0].normal_form for w in input_text_.lower().split()])
+        processed_txt = input.lower().translate(str.maketrans('', '', string.punctuation))  # препроцессинг
         tags = ['<unk>', '<bos>', '<eos>', '<pad>']
         unk_id, bos_id, eos_id, pad_id = [word2idx[tag] for tag in tags]  # тэги
         tok_sent = [word2idx.get(word, unk_id) for word in word_tokenize(processed_txt)]  # токенизация
